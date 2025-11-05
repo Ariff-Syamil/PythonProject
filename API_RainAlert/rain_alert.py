@@ -1,16 +1,18 @@
-"""Use to check the weather by call API from https://openweathermap.org/current"""
+"""Use to check the weather by call API from https://openweathermap.org/forecast5"""
 import requests
+from datetime import datetime
 
 Latitude = 5.161454
 Longitude = 100.522243
-API_KEYS = "682268fad369e4af8092e0c4070c8490"
+API_KEYS = ""
 
-OpenWeatherMap_Endpoint = "https://api.openweathermap.org/data/2.5/weather"
+OpenWeatherMap_Endpoint = "https://api.openweathermap.org/data/2.5/forecast"
 
 parameters = {
     'lat': Latitude,
     'lon': Longitude,
     'appid': API_KEYS,
+    'cnt': 5
 }
 
 proxies = {
@@ -30,6 +32,27 @@ response = requests.get(
 
 if response.status_code == 200:
     data = response.json()
-    print(data)
+    weather = data["list"]
 else:
     print("Request failed:", response.status_code)
+    exit("Not 200 api response")
+
+for days in weather:
+    days_weather = days["weather"][0]["main"]
+    date = days["dt_txt"]
+    dt_object = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+    day_name = dt_object.strftime("%A")
+
+    # https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
+    condition_codes = days["weather"][0]["id"]
+
+    print(f"Date checked : {date}")
+    print(f"This day will be on {day_name}")
+    print(f"Weather in the day: {days_weather}")
+
+    if days_weather == "Rain" or "Clouds" or condition_codes < 700:
+        print("Bring umbrella today")
+    else:
+        print("Its a good day")
+
+    print("\n")

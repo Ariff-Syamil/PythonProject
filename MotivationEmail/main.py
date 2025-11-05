@@ -3,8 +3,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-email = "mohammadx.ariff.syamil.bin.idrus@intel.com"
-password = "AngahBoring9%"
+email = ""
+password = ""
 receiver_email = "mohdsyamil95@gmail.com"
 Subject = "MotivationMonday"
 
