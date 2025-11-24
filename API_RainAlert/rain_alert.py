@@ -2,17 +2,17 @@
 import requests
 import os
 from datetime import datetime
-from twilio.rest import Client
-from twilio.http.http_client import TwilioHttpClient
+# from twilio.rest import Client
+# from twilio.http.http_client import TwilioHttpClient
 
 Latitude = 5.161454
 Longitude = 100.522243
-# API_KEYS = "682268fad369e4af8092e0c4070c8490"
-API_KEYS = os.environ.get("OPENWEATHER_API_KEYS")
-# account_sid = "ACbac2fed1a3ca61e53f20e4249c76d097"
-account_sid = os.environ.get("ACCOUNT_SID")
-# auth_token = "27313fc398e3f5c15c913aa1805da6fd"
-auth_token = os.environ.get("SID_AUTH")
+API_KEYS = "682268fad369e4af8092e0c4070c8490"
+# API_KEYS = os.environ.get("OPENWEATHER_API_KEYS")
+account_sid = "ACbac2fed1a3ca61e53f20e4249c76d097"
+# account_sid = os.environ.get("ACCOUNT_SID")
+auth_token = "27313fc398e3f5c15c913aa1805da6fd"
+# auth_token = os.environ.get("SID_AUTH")
 
 OpenWeatherMap_Endpoint = "https://api.openweathermap.org/data/2.5/forecast"
 
@@ -33,11 +33,11 @@ proxies = {
 #     'http':os.environ['http_proxy'],
 # }
 
-proxy_client = TwilioHttpClient(
-    proxy=proxies,
-)
+# proxy_client = TwilioHttpClient(
+#     proxy=proxies,
+# )
 
-client = Client(account_sid, auth_token, http_client=proxy_client)
+# client = Client(account_sid, auth_token, http_client=proxy_client)
 
 # Example of API call
 # https://api.openweathermap.org/data/2.5/weather?lat=5.161454&lon=100.522243&appid=682268fad369e4af8092e0c4070c8490
@@ -45,13 +45,14 @@ client = Client(account_sid, auth_token, http_client=proxy_client)
 response = requests.get(
     OpenWeatherMap_Endpoint,
     params=parameters,
-    proxies=proxies,
+    # proxies=proxies,
     timeout=1200,
     )
 
 if response.status_code == 200:
     data = response.json()
     weather = data["list"]
+    print(weather)
 else:
     print("Request failed:", response.status_code)
     exit("Not 200 api response")
